@@ -20,7 +20,7 @@ echo "
 # =============================================
 
 # Function to install CLI tools if not already installed
-package_install_if_missing() {
+install_package_if_missing() {
   if ! command -v "$1" &>/dev/null; then
     echo "  ➡️  Installing $1..."
     brew install "$1"
@@ -30,7 +30,7 @@ package_install_if_missing() {
 }
 
 # Function to install cask apps if not already installed
-cask_install_if_missing() {
+install_cask_if_missing() {
   if ! brew list --cask "$1" &>/dev/null; then
     echo "  ➡️  Installing $1..."
     brew install --cask "$1"
@@ -93,8 +93,8 @@ cli_tools=(
 )
 
 for tool in "${cli_tools[@]}"; do
-  package_install_if_missing "$tool"
-done
+  install_package_if_missing "$tool"
+d_one
 
 # Enable PostgreSQL
 echo "  🚀 Starting PostgreSQL service..."
@@ -125,7 +125,7 @@ cask_apps=(
 )
 
 for app in "${cask_apps[@]}"; do
-  cask_install_if_missing "$app"
+  install_cask_if_missing "$app"
 done
 
 # =============================================
