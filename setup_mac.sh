@@ -31,12 +31,24 @@ install_package_if_missing() {
 
 # Function to install cask apps if not already installed
 install_cask_if_missing() {
-  if ! brew list --cask "$1" &>/dev/null; then
-    echo "  ➡️  Installing $1..."
-    brew install --cask "$1"
-  else
-    echo "  ✅ $1 already installed"
+  local cask_name="$1"
+  local app_name="${2:-$1}"  # Use second parameter as app name if provided, otherwise use cask name
+  
+  # Check if already installed via Homebrew cask
+  if brew list --cask "$cask_name" &>/dev/null; then
+    echo "  ✅ $cask_name already installed via Homebrew"
+    return
   fi
+  
+  # Check if app exists in Applications folder
+  if [ -d "/Applications/${app_name}.app" ] || [ -d "/Applications/${app_name}" ]; then
+    echo "  ✅ $app_name already installed manually"
+    return
+  fi
+  
+  # If not installed, install it
+  echo "  ➡️  Installing $cask_name..."
+  brew install --cask "$cask_name"
 }
 
 # =============================================
@@ -111,25 +123,27 @@ echo "
 🖥️  STEP 4: Installing GUI Applications
 ---------------------------------------------"
 
-cask_apps=(
-  iterm2          # Better terminal
-  raycast         # Spotlight replacement
-  1password       # Password manager
-  visual-studio-code  # Code editor
-  docker          # Containerization
-  slack           # Team communication
-  postman         # API testing
-  ngrok           # Local tunneling
-  android-studio  # Android development
-  tableplus       # Database GUI
-  zoom            # Video conferencing
-  arc             # Browser
-  notion          # Notes and organization
-  todoist         # Task management
+# Define cask names and their corresponding app names
+declare -A cask_to_app=(
+  ["iterm2"]="iTerm"
+  ["raycast"]="Raycast"
+  ["1password"]="1Password"
+  ["visual-studio-code"]="Visual Studio Code"
+  ["docker"]="Docker"
+  ["slack"]="Slack"
+  ["postman"]="Postman"
+  ["ngrok"]="ngrok"
+  ["android-studio"]="Android Studio"
+  ["tableplus"]="TablePlus"
+  ["zoom"]="zoom.us"
+  ["arc"]="Arc"
+  ["notion"]="Notion"
+  ["todoist"]="Todoist"
 )
 
-for app in "${cask_apps[@]}"; do
-  install_cask_if_missing "$app"
+# Install each cask app if not already installed
+for cask in "${!cask_to_app[@]}"; do
+  install_cask_if_missing "$cask" "${cask_to_app[$cask]}"
 done
 
 # =============================================
