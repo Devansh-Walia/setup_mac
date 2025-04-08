@@ -96,9 +96,13 @@ for tool in "${cli_tools[@]}"; do
   install_package_if_missing "$tool"
 done
 
-# Enable PostgreSQL
-echo "  🚀 Starting PostgreSQL service..."
-brew services start postgresql
+# Enable PostgreSQL if installed
+if brew list postgresql &>/dev/null; then
+  echo "  🚀 Starting PostgreSQL service..."
+  brew services start postgresql
+else
+  echo "  ⚠️ PostgreSQL not installed, skipping service start"
+fi
 
 # =============================================
 # 4. GUI APPLICATIONS
