@@ -94,7 +94,7 @@ cli_tools=(
 
 for tool in "${cli_tools[@]}"; do
   install_package_if_missing "$tool"
-d_one
+done
 
 # Enable PostgreSQL
 echo "  🚀 Starting PostgreSQL service..."
@@ -561,6 +561,6 @@ echo "
 5. Configure Docker resources (CPU, RAM) from its settings
 
 6. Mobile Development:
-   - iOS: Open Xcode and run the "iPhone 14 (Setup)" simulator
+   - iOS: Open Xcode and run the "iPhone 14 Setup" simulator
    - Android: Open Android Studio and run the "Pixel_6_API_33" emulator
 "
