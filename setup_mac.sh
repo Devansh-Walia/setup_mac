@@ -85,9 +85,9 @@ cli_tools=(
   git
   zsh
   node
-  python
-  rust
-  postgresql
+  # python
+  # rust
+  # postgresql
   zsh-autosuggestions
   zsh-syntax-highlighting
 )
